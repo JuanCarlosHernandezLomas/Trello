@@ -1,0 +1,986 @@
+{
+	"info": {
+		"_postman_id": "76ee4dd2-6acd-40c0-981d-71af491b0694",
+		"name": "trello",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19426156"
+	},
+	"item": [
+		{
+			"name": "Crear board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"pm.environment.set(\"tablero_id\", jasonData.id); \r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"console.log(jasonData)\r",
+							"\r",
+							"pm.test(\"validar nombre del tablero\" ,function(){\r",
+							"   \r",
+							"pm.expect(jasonData.name).to.eqls(\"nuevo\");\r",
+							"\r",
+							"})\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							"postman.setNextRequest(\"crear list\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "nuevo",
+							"type": "text"
+						},
+						{
+							"key": "desc",
+							"value": "tablero de ejemplo",
+							"type": "text"
+						},
+						{
+							"key": "prefs_background",
+							"value": "6441bbf61ff9669cf8a1fe42",
+							"type": "text"
+						},
+						{
+							"key": "due",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/boards/?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscar tablero",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"pm.environment.set(\"tablero_id\", jasonData.id); \r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"console.log(jasonData)\r",
+							"\r",
+							"pm.test(\"validar nombre del tablero\" ,function(){\r",
+							"   \r",
+							"pm.expect(jasonData.name).to.eqls(\"nuevo\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/boards/{{tablero_id}}?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"boards",
+						"{{tablero_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"console.log(\"6442d38cc8b993c2e3284073\")\r",
+							"pm.environment.set(\"list_id\", jasonData.id); \r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"validar id de la lista \" ,function(){\r",
+							"   \r",
+							"pm.expect(jasonData.id).to.eqls(pm.environment.get(\"list_id\"));\r",
+							"\r",
+							"})\r",
+							"postman.setNextRequest(\"todas las listas\")\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{$randomAdjective}}",
+							"type": "text"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{tablero_id}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/lists/?&key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"lists",
+						""
+					],
+					"query": [
+						{
+							"key": null,
+							"value": null
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscar lista en especifico",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.test(\"validar id de la lista \" ,function(){\r",
+							"   \r",
+							"pm.expect(jasonData.id).to.eqls(pm.environment.get(\"list_id\"));\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/lists/{{list_id}}?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"lists",
+						"{{list_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear una nueva carta",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"pm.environment.set(\"cart_id\", jasonData.id); \r",
+							"pm.environment.set(\"cart_name\", jasonData.name)\r",
+							"pm.environment.set(\"cart_desc\", jasonData.desc)\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar nombre de carta\", function(){\r",
+							"    pm.expect(jasonData.name).to.eqls(pm.environment.get(\"cart_name\"));\r",
+							"})\r",
+							"\r",
+							"postman.setNextRequest(\"todas las cartas en un tablero\")\r",
+							"\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "funcionando",
+							"type": "text"
+						},
+						{
+							"key": "desc",
+							"value": "funcionando",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/cards?idList={{list_id}}&key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{list_id}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todas las listas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var jsonD = JSON.parse(responseBody);\r",
+							"    var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"    console.log(jsonD[1].id);\r",
+							"    pm.environment.set(\"list_move\", jsonD[1].id)\r",
+							"    var hola= jasonData.length\r",
+							"    console.log(jsonD)\r",
+							"    pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})\r",
+							"    \r",
+							"pm.test(\"validar que el json no este vacio\" ,function(){\r",
+							"   \r",
+							" pm.expect(jsonD).to.not.empty\r",
+							"\r",
+							"})\r",
+							"\r",
+							"if(hola==5)\r",
+							"{\r",
+							"    postman.setNextRequest(\"crear una nueva carta\")\r",
+							"}\r",
+							" else{\r",
+							"     postman.setNextRequest(\"crear list\")\r",
+							" }\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/boards/{{tablero_id}}/lists?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"boards",
+						"{{tablero_id}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todas las cartas en un tablero",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var jsonD = JSON.parse(responseBody);\r",
+							"    var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"    console.log(jsonD[0].id);\r",
+							"    var hola= jasonData.length\r",
+							"    console.log(hola)\r",
+							"    pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"validar que el json no este vacio\" ,function(){\r",
+							"   \r",
+							" pm.expect(jsonD).to.not.empty\r",
+							"\r",
+							"})\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})\r",
+							"\r",
+							"\r",
+							"if(hola==2 )\r",
+							"{\r",
+							"    postman.setNextRequest(\"mover card\")\r",
+							"}\r",
+							" else{\r",
+							"     postman.setNextRequest(\"crear una nueva carta\")\r",
+							" }\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/boards/{{tablero_id}}/cards?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"boards",
+						"{{tablero_id}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mover card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData =  pm.response.json();\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"postman.setNextRequest(\"borrar ultima carta creada\")\r",
+							"\r",
+							"pm.test(\"ID de lista a las cual se mueve\", function(){\r",
+							"\r",
+							"pm.expect(jasonData.idList).to.eqls(pm.environment.get(\"list_move\"));\r",
+							"\r",
+							"})\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/cards/{{cart_id}}?idBoard={{tablero_id}}&idList={{list_move}}&key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"cards",
+						"{{cart_id}}"
+					],
+					"query": [
+						{
+							"key": "idBoard",
+							"value": "{{tablero_id}}"
+						},
+						{
+							"key": "idList",
+							"value": "{{list_move}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borrar ultima carta creada",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jasonData = pm.response.json();\r",
+							"console.log(jasonData)\r",
+							"\r",
+							"pm.test(\"validar delete de la carta \" ,function(){\r",
+							"   \r",
+							"pm.expect(jasonData.limits).to.be.an(\"Object\")\r",
+							"\r",
+							"})\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})\r",
+							"\r",
+							"postman.setNextRequest(\"carta con el contenido de la ultima\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/cards/{{cart_id}}?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"cards",
+						"{{cart_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "carta con el contenido de la ultima",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"pm.environment.set(\"cart_id\", jasonData.id); \r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jasonData =  pm.response.json();\r",
+							"\r",
+							"pm.test(\"nombre de la ultima carta creada\", function(){\r",
+							"\r",
+							"pm.expect(jasonData.name).to.eqls(pm.environment.get(\"cart_name\"));\r",
+							"\r",
+							"})\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})\r",
+							"postman.setNextRequest(\"Obtener ID de cartas\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{cart_name}}",
+							"type": "text"
+						},
+						{
+							"key": "desc",
+							"value": "{{cart_desc}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/cards?idList={{list_id}}&key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{list_id}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener ID de cartas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  \r",
+							"    var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"    \r",
+							"    var hola= jasonData.length\r",
+							"    console.log(hola)\r",
+							"\r",
+							"    if (hola == 0){\r",
+							"       console.log(\"termino\")\r",
+							"       postman.setNextRequest(\"borrar tablero\")\r",
+							"    }\r",
+							"    else{\r",
+							"          var jsonD = JSON.parse(responseBody);\r",
+							"          pm.environment.set(\"ejemplo\", jsonD[0].id)\r",
+							"           postman.setNextRequest(\"borrar todas las cartas\")\r",
+							"\r",
+							"        console.log(jsonD[0].id);\r",
+							"        \r",
+							"    }\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/boards/{{tablero_id}}/cards?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"boards",
+						"{{tablero_id}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borrar todas las cartas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json();\r",
+							"postman.setNextRequest(\"Obtener ID de cartas\")\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"validar delete de todas las carta \" ,function(){\r",
+							"   \r",
+							"pm.expect(jasonData.limits).to.be.an(\"Object\")\r",
+							"\r",
+							"})\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/cards/{{ejemplo}}?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"cards",
+						"{{ejemplo}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borrar tablero",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json();\r",
+							"console.log(jasonData)\r",
+							"\r",
+							"pm.test(\"validar delete del tablero\" ,function(){\r",
+							"   \r",
+							"pm.expect(jasonData._value).to.be.null\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"validar estructura\" ,function(){\r",
+							"   \r",
+							"pm.response.to.be.json\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "ejemplo",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "tablero de ejemplo",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "prefs_background",
+							"value": "6441bbf61ff9669cf8a1fe42",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "due",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/boards/{{tablero_id}}?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"boards",
+						"{{tablero_id}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
